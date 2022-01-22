@@ -14,8 +14,9 @@ namespace AliexpressItemsParser
 {
     public class AliParser : IDisposable
     {
+        private const string DomainZone = "com";
         private static Regex itemIdRegex = new Regex(@"^\d+$");
-        private readonly IWebDriver _chromeDriver;
+        private readonly Lazy<IWebDriver> _webDriver;
 
         static AliParser()
         {
@@ -24,14 +25,17 @@ namespace AliexpressItemsParser
 
         public AliParser()
         {
-            ChromeOptions options = new ChromeOptions();
-            options.AddArguments("headless");
-            _chromeDriver = new ChromeDriver(options);
+            _webDriver = new Lazy<IWebDriver>(() =>
+            {
+                ChromeOptions options = new ChromeOptions();
+                options.AddArguments("headless");
+                return new ChromeDriver(options);
+            });
         }
 
         public AliParser(IWebDriver driver)
         {
-            _chromeDriver = driver;
+            _webDriver = new Lazy<IWebDriver>(driver);
         }
 
         public Task<AliexpressItem> Parse(string itemId)
@@ -40,12 +44,14 @@ namespace AliexpressItemsParser
                 throw new AliexpressItemsParserException("ItemId is not in right format");
             try
             {
-                _chromeDriver.Navigate().GoToUrl($"https://aliexpress.ru/item/{itemId}.html");
+                IWebDriver driver = _webDriver.Value;
+                string url = $"https://aliexpress.{DomainZone}/item/{itemId}.html";
+                driver.Navigate().GoToUrl(url);
 
                 IWebElement data;
                 try
                 {
-                    data = _chromeDriver.FindElement(By.Id("__AER_DATA__"));
+                    data = driver.FindElement(By.Id("__AER_DATA__"));
                 }
                 catch (Exception e)
                 {
@@ -54,6 +60,7 @@ namespace AliexpressItemsParser
 
                 string json = data.GetAttribute("innerHTML");
                 AliexpressItem aliItem = ParseJson(json);
+                aliItem.ItemUrl = url;
                 return Task.FromResult(aliItem);
             }
             catch (Exception e) when (e is not AliexpressItemsParserException)
@@ -98,7 +105,8 @@ namespace AliexpressItemsParser
 
         public void Dispose()
         {
-            _chromeDriver?.Dispose();
+            if (_webDriver.IsValueCreated)
+                _webDriver?.Value?.Dispose();
         }
     }
 }

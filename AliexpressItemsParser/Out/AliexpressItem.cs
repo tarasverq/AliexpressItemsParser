@@ -7,6 +7,9 @@ public class AliexpressItem
 {
     [JsonPropertyName("id")]
     public string Id { get; set; }
+    
+    [JsonPropertyName("url")]
+    public string ItemUrl { get; set; }
 
     [JsonPropertyName("gallery")]
     public ICollection<Gallery> Gallery { get; set; }
