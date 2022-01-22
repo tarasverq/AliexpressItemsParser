@@ -4,7 +4,6 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Nullable>disable</Nullable>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageVersion>1.0.0-alpha1</PackageVersion>
         <Title>AliexpressItemsParser</Title>
         <Authors>tarasverq</Authors>
