@@ -9,28 +9,27 @@ using AliexpressItemsParser.Out;
 using Mapster;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Remote;
 
 namespace AliexpressItemsParser
 {
-    public class AliexpressItemsParser : IDisposable
+    public class AliParser : IDisposable
     {
         private static Regex itemIdRegex = new Regex(@"^\d+$");
         private readonly IWebDriver _chromeDriver;
 
-        static AliexpressItemsParser()
+        static AliParser()
         {
-            TypeAdapterConfig.GlobalSettings.Scan(typeof(AliexpressItemsParser).Assembly);
+            TypeAdapterConfig.GlobalSettings.Scan(typeof(AliParser).Assembly);
         }
 
-        public AliexpressItemsParser()
+        public AliParser()
         {
             ChromeOptions options = new ChromeOptions();
             options.AddArguments("headless");
             _chromeDriver = new ChromeDriver(options);
         }
 
-        public AliexpressItemsParser(IWebDriver driver)
+        public AliParser(IWebDriver driver)
         {
             _chromeDriver = driver;
         }

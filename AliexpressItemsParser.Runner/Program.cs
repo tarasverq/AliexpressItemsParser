@@ -8,7 +8,7 @@ namespace AliexpressItemsParser.Runner
     {
         static async Task Main(string[] args)
         {
-            using AliexpressItemsParser aliexpressItemsParser = new AliexpressItemsParser();
+            using AliParser aliexpressItemsParser = new AliParser();
             AliexpressItem data = await aliexpressItemsParser.Parse("1005002715141420");
             
             Console.WriteLine($"Product: '{data.Name}'");
