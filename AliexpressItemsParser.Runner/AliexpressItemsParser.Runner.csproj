@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <PublishChromeDriver>true</PublishChromeDriver>
+        <WebDriverPlatform>win32</WebDriverPlatform>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\AliexpressItemsParser\AliexpressItemsParser.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="97.0.4692.7100" />
+    </ItemGroup>
+
+</Project>
