@@ -5,63 +5,40 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AliexpressItemsParser.Exceptions;
+using AliexpressItemsParser.Interfaces;
 using AliexpressItemsParser.Out;
 using Mapster;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 
 namespace AliexpressItemsParser
 {
-    public class AliParser : IDisposable
+    public class AliParser : IAliParser
     {
+        private readonly IAliScraper _scraper;
         private const string DomainZone = "com";
         private static Regex itemIdRegex = new Regex(@"^\d+$");
-        private readonly Lazy<IWebDriver> _webDriver;
 
         static AliParser()
         {
             TypeAdapterConfig.GlobalSettings.Scan(typeof(AliParser).Assembly);
         }
 
-        public AliParser()
+        public AliParser(IAliScraper scraper)
         {
-            _webDriver = new Lazy<IWebDriver>(() =>
-            {
-                ChromeOptions options = new ChromeOptions();
-                options.AddArguments("headless");
-                return new ChromeDriver(options);
-            });
+            _scraper = scraper;
         }
 
-        public AliParser(IWebDriver driver)
-        {
-            _webDriver = new Lazy<IWebDriver>(driver);
-        }
 
-        public Task<AliexpressItem> Parse(string itemId)
+        public async Task<AliexpressItem> Parse(string itemId)
         {
             if (!itemIdRegex.IsMatch(itemId))
                 throw new AliexpressItemsParserException("ItemId is not in right format");
             try
             {
-                IWebDriver driver = _webDriver.Value;
                 string url = $"https://aliexpress.{DomainZone}/item/{itemId}.html";
-                driver.Navigate().GoToUrl(url);
-
-                IWebElement data;
-                try
-                {
-                    data = driver.FindElement(By.Id("__AER_DATA__"));
-                }
-                catch (Exception e)
-                {
-                    throw new AliexpressItemsParserException("Unable to get element '__AER_DATA__'", e);
-                }
-
-                string json = data.GetAttribute("innerHTML");
+                string json = await _scraper.GetDataString(url);
                 AliexpressItem aliItem = ParseJson(json);
                 aliItem.ItemUrl = url;
-                return Task.FromResult(aliItem);
+                return aliItem;
             }
             catch (Exception e) when (e is not AliexpressItemsParserException)
             {
@@ -103,10 +80,5 @@ namespace AliexpressItemsParser
             return aliItem;
         }
 
-        public void Dispose()
-        {
-            if (_webDriver.IsValueCreated)
-                _webDriver?.Value?.Dispose();
-        }
     }
 }
