@@ -1,10 +1,9 @@
+[![Nuget](https://img.shields.io/nuget/v/AliexpressItemsParser)](https://www.nuget.org/packages/AliexpressItemsParser/)
+
 AliexpressItemsParser
 ============
 
-
 C# library for retrieving AliExpress items data.
-
-[![Nuget](https://img.shields.io/nuget/v/AliexpressItemsParser)](https://www.nuget.org/packages/AliexpressItemsParser/)
 
 <details>
  <summary>Example output</summary>
@@ -199,7 +198,7 @@ Library includes two implementations of `IAliScraper` which retrieves data strin
  - `AliHttpScraper` - this implementation uses `HttpClient`
  - `AliSeleniumScraper` - this implementation uses Selenium framework
 
-`AliHttpScraper` uses workaround for dotnet runtime [bug](https://github.com/dotnet/runtime/issues/60628),
+`AliHttpScraper` uses workaround for [dotnet runtime bug](https://github.com/dotnet/runtime/issues/60628),
 so the working of this implementation is not fully guarantied.
 
 
@@ -218,7 +217,7 @@ AliHttpScraper httpScraper = new AliHttpScraper();
 AliParser aliexpressItemsParser = new AliParser(httpScraper);
 AliexpressItem data = await aliexpressItemsParser.Parse(itemId);
 ```
-_______________________
+
 Selenium framework implementation:
 > **⚠ WARNING:** Notice that `AliSeleniumScraper` is `IDisposable`. You must dispose it by yourself
 ```C#
@@ -228,6 +227,7 @@ AliexpressItem data = await aliexpressItemsParser.Parse(itemId);
 ```
 
 
+_______________________
 #### DI usage ####
 
 `HttpClient` implementation:
@@ -236,7 +236,7 @@ Services.AddScoped<IAliScraper, AliHttpScraper>();
 Services.AddScoped<IAliParser, AliParser>();
 ```
 
-_______________________
+
 
 Selenium framework implementation:
 > **⚠ WARNING:** Notice that `AliSeleniumScraper` is `IDisposable`. 
@@ -250,6 +250,8 @@ Then just inject `IAliParser` and use it:
 ```C#
 AliexpressItem data = await _aliexpressItemsParser.Parse(itemId);
 ```
+
+_______________________
 
 You can also check the examples in this repo:
 - AliexpressItemsParser.Runner - console app with regular usage

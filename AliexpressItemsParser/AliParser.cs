@@ -14,8 +14,9 @@ namespace AliexpressItemsParser
     public class AliParser : IAliParser
     {
         private readonly IAliScraper _scraper;
-        private const string DomainZone = "com";
-        private static Regex itemIdRegex = new Regex(@"^\d+$");
+
+        private static readonly Regex ItemIdRegex = new Regex(@"^\d+$");
+
 
         static AliParser()
         {
@@ -30,11 +31,11 @@ namespace AliexpressItemsParser
 
         public async Task<AliexpressItem> Parse(string itemId)
         {
-            if (!itemIdRegex.IsMatch(itemId))
+            if (!ItemIdRegex.IsMatch(itemId))
                 throw new AliexpressItemsParserException("ItemId is not in right format");
             try
             {
-                string url = $"https://aliexpress.{DomainZone}/item/{itemId}.html";
+                string url = AliHelper.MakeUrl(itemId);
                 string json = await _scraper.GetDataString(url);
                 AliexpressItem aliItem = ParseJson(json);
                 aliItem.ItemUrl = url;
@@ -80,5 +81,9 @@ namespace AliexpressItemsParser
             return aliItem;
         }
 
+        public async Task<bool> IsItemExists(string itemId)
+        {
+            return await _scraper.IsItemExists(itemId);
+        }
     }
 }

@@ -19,19 +19,19 @@ public class AliSeleniumScraper : IDisposable, IAliScraper
             service.EnableVerboseLogging = false;
             service.SuppressInitialDiagnosticInformation = true;
             service.HideCommandPromptWindow = true;
-            
+
             ChromeOptions options = new ChromeOptions();
             options.AddArguments("headless");
-            
+
             options.AddArgument("--disable-crash-reporter");
             options.AddArgument("--disable-logging");
             options.AddArgument("--log-level=3");
             options.AddArgument("--output=/dev/null");
-            
+
             return new ChromeDriver(service, options);
         });
     }
-    
+
     public AliSeleniumScraper(IWebDriver driver)
     {
         _webDriver = new Lazy<IWebDriver>(driver);
@@ -61,6 +61,27 @@ public class AliSeleniumScraper : IDisposable, IAliScraper
         catch (Exception e) when (e is not AliexpressItemsParserException)
         {
             throw new AliexpressItemsParserException($"Error when trying to get {url} data", e);
+        }
+    }
+
+    public Task<bool> IsItemExists(string itemId)
+    {
+        try
+        {
+            string url = AliHelper.MakeUrl(itemId);
+            IWebDriver driver = _webDriver.Value;
+            driver.Navigate().GoToUrl(url);
+            IWebElement body = driver.FindElement(By.TagName("body"));
+            string attribute = body.GetAttribute("data-spm");
+            if (attribute is null)
+                throw new AliexpressItemsParserException(
+                    "Unable to get <body>'s data-spm attribute for item {itemId}");
+
+            return Task.FromResult(attribute.Equals("detail", StringComparison.InvariantCultureIgnoreCase));
+        }
+        catch (Exception e) when (e is not AliexpressItemsParserException)
+        {
+            throw new AliexpressItemsParserException($"Error when trying to check item {itemId} existence", e);
         }
     }
 

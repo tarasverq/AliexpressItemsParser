@@ -47,4 +47,12 @@ public class AliHttpScraper : IAliScraper
         string data = dataElement.InnerHtml;
         return data;
     }
+
+    public async Task<bool> IsItemExists(string itemId)
+    {
+        string url = AliHelper.MakeUrl(itemId);
+        HttpResponseMessage response = await _httpClient.SendAsyncWithCookieFix(
+            new HttpRequestMessage(HttpMethod.Get, url), _handler.CookieContainer);
+        return response.IsSuccessStatusCode;
+    }
 }

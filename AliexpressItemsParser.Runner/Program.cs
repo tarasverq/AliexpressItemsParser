@@ -13,6 +13,7 @@ namespace AliexpressItemsParser.Runner
         {
             string itemId = "1005002715141420";
 
+            await CheckItemExists(itemId);
             await ParseWithHttpClient(itemId);
             await ParseWithSelenium(itemId);
         }
@@ -40,6 +41,18 @@ namespace AliexpressItemsParser.Runner
             AliexpressItem data = await aliexpressItemsParser.Parse(itemId);
 
             Print(data);
+            Console.WriteLine($"Time elapsed: {sw.Elapsed}");
+        }    
+        
+        static async Task CheckItemExists(string itemId)
+        {
+            Console.WriteLine("Running CheckItemExists...");
+            Stopwatch sw = Stopwatch.StartNew();
+
+            using AliSeleniumScraper seleniumScraper = new AliSeleniumScraper();
+            AliParser aliexpressItemsParser = new AliParser(seleniumScraper);
+            var result = await aliexpressItemsParser.IsItemExists("32376778613");
+            Console.WriteLine(result ? "Item exists" : "Item is not exists");
             Console.WriteLine($"Time elapsed: {sw.Elapsed}");
         }
 
