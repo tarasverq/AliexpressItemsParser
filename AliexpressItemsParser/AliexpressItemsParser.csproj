@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>disable</Nullable>
+        <PackageVersion>1.0.0-alpha1</PackageVersion>
+        <Title>AliexpressItemsParser</Title>
+        <Authors>tarasverq</Authors>
+        <Description>Lib for getting aliexpress items data.
+See github repository for more info</Description>
+        <RepositoryUrl>https://github.com/tarasverq/AliexpressItemsParser</RepositoryUrl>
+        <PackageTags>AliExpress</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AngleSharp" Version="0.16.1" />
+        <PackageReference Include="JsonDocumentPath" Version="1.0.2" />
+        <PackageReference Include="Mapster" Version="7.2.0" />
+        <PackageReference Include="Selenium.WebDriver" Version="4.1.0" />
+        <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="97.0.4692.7100" />
+        <PackageReference Include="System.Text.Json" Version="6.0.1" />
+    </ItemGroup>
+</Project>

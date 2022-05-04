@@ -1,0 +1,28 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AliexpressItemsParser", "AliexpressItemsParser\AliexpressItemsParser.csproj", "{04764649-D062-488D-9365-8DD1E7E79512}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AliexpressItemsParser.Runner", "AliexpressItemsParser.Runner\AliexpressItemsParser.Runner.csproj", "{54BEF2D9-02A2-4358-B4B5-A47CF141AC72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AliexpressItemsParser.WebApi", "AliexpressItemsParser.WebApi\AliexpressItemsParser.WebApi.csproj", "{A1F707C8-D132-4479-B076-F2F58ACEE97D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{04764649-D062-488D-9365-8DD1E7E79512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04764649-D062-488D-9365-8DD1E7E79512}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04764649-D062-488D-9365-8DD1E7E79512}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04764649-D062-488D-9365-8DD1E7E79512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54BEF2D9-02A2-4358-B4B5-A47CF141AC72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54BEF2D9-02A2-4358-B4B5-A47CF141AC72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54BEF2D9-02A2-4358-B4B5-A47CF141AC72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54BEF2D9-02A2-4358-B4B5-A47CF141AC72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1F707C8-D132-4479-B076-F2F58ACEE97D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1F707C8-D132-4479-B076-F2F58ACEE97D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1F707C8-D132-4479-B076-F2F58ACEE97D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1F707C8-D132-4479-B076-F2F58ACEE97D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
